@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>VORTEX — Tornado Destruction Simulator</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+
+    <!-- Main Menu -->
+    <div id="screen-menu" class="screen active">
+      <div class="menu-bg-overlay"></div>
+      <div class="menu-content">
+        <div class="title-container">
+          <div class="title-word">VORTEX</div>
+          <div class="title-sub">TORNADO DESTRUCTION SIMULATOR</div>
+        </div>
+        <div class="menu-buttons">
+          <button class="btn-primary pulse-glow" id="btn-freplay">FREE PLAY</button>
+          <button class="btn-secondary" id="btn-timed">TIMED DESTRUCTION</button>
+          <button class="btn-secondary" id="btn-survival">SURVIVAL STORM</button>
+          <button class="btn-secondary" id="btn-endless">ENDLESS MODE</button>
+        </div>
+        <div class="menu-footer">
+          <span>WASD / Arrow Keys to Move &nbsp;|&nbsp; Absorb everything in your path</span>
+        </div>
+        <div class="storm-tip">🌪️ Start small. Grow unstoppable.</div>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <div id="hud-top-left">
+        <div id="hud-stage-name">DUST DEVIL</div>
+        <div id="hud-ef-badge" class="ef-badge">EF0</div>
+      </div>
+
+      <div id="hud-top-center">
+        <div class="hud-label">DESTRUCTION</div>
+        <div id="destruction-bar-bg">
+          <div id="destruction-bar"></div>
+          <div id="destruction-bar-glow"></div>
+        </div>
+        <div id="destruction-mass">0 kg absorbed</div>
+      </div>
+
+      <div id="hud-top-right">
+        <div class="hud-label">STORM ENERGY</div>
+        <div id="energy-bar-bg">
+          <div id="energy-bar"></div>
+        </div>
+        <div id="hud-upgrade-pts">⚡ <span id="upgrade-pts-val">0</span> pts</div>
+      </div>
+
+      <div id="hud-bottom-left">
+        <div id="minimap-container">
+          <canvas id="minimap-canvas" width="160" height="120"></canvas>
+          <div class="minimap-label">RADAR</div>
+        </div>
+      </div>
+
+      <div id="hud-bottom-right">
+        <div id="combo-display" class="hidden">
+          <div id="combo-label">COMBO</div>
+          <div id="combo-value">x1</div>
+        </div>
+      </div>
+
+      <div id="hud-mode-timer" class="hidden">
+        <div class="hud-label">TIME</div>
+        <div id="mode-timer-val">3:00</div>
+      </div>
+
+      <div id="hud-paused" class="hidden">PAUSED — Press P to Resume</div>
+    </div>
+
+    <!-- Upgrade Screen -->
+    <div id="screen-upgrade" class="screen hidden">
+      <div class="upgrade-bg-overlay"></div>
+      <div class="upgrade-content">
+        <div class="upgrade-title">TORNADO EVOLVES</div>
+        <div id="upgrade-stage-name" class="upgrade-stage">EF1 TORNADO</div>
+        <div class="upgrade-subtitle">Choose your enhancement</div>
+        <div id="upgrade-grid" class="upgrade-grid"></div>
+        <button class="btn-skip" id="btn-upgrade-skip">SKIP → Enter Storm</button>
+      </div>
+    </div>
+
+    <!-- Stage Up Banner -->
+    <div id="stage-banner" class="hidden">
+      <div class="stage-banner-inner">
+        <div id="stage-banner-ef">EF1</div>
+        <div id="stage-banner-name">TORNADO</div>
+        <div class="stage-banner-sub">TORNADO GROWS STRONGER</div>
+      </div>
+    </div>
+
+    <!-- Absorption Popup -->
+    <div id="absorb-popup" class="hidden"></div>
+
+    <!-- Game Over -->
+    <div id="screen-gameover" class="screen hidden">
+      <div class="gameover-content">
+        <div class="gameover-title" id="gameover-title">STORM ENDS</div>
+        <div class="gameover-stats" id="gameover-stats"></div>
+        <div class="gameover-buttons">
+          <button class="btn-primary" id="btn-restart">PLAY AGAIN</button>
+          <button class="btn-secondary" id="btn-menu">MAIN MENU</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightning flash overlay -->
+    <div id="lightning-overlay"></div>
+  </div>
+
+  <!-- roundRect polyfill for older browsers -->
+  <script>
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r) {
+        r = Math.min(r, w/2, h/2);
+        this.moveTo(x+r, y);
+        this.lineTo(x+w-r, y); this.arcTo(x+w, y, x+w, y+r, r);
+        this.lineTo(x+w, y+h-r); this.arcTo(x+w, y+h, x+w-r, y+h, r);
+        this.lineTo(x+r, y+h); this.arcTo(x, y+h, x, y+h-r, r);
+        this.lineTo(x, y+r); this.arcTo(x, y, x+r, y, r);
+        this.closePath();
+      };
+    }
+  </script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/camera.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/objects.js"></script>
+  <script src="js/tornado.js"></script>
+  <script src="js/upgrades.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
